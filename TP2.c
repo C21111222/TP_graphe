@@ -6,27 +6,52 @@
 #include <time.h>
 #include <math.h>
 
-
 #define STB_DS_IMPLEMENTATION
 #include "stb_ds.h"
-    
 
 #define BUFSIZE 65536
 
+/**
+ * @brief A structure representing a node in a linked list of vertices.
+ * 
+ */
 typedef struct chainon {
-    int numero_sommet;
-    struct chainon* next;
+    int numero_sommet; /**< The number of the vertex represented by this node. */
+    struct chainon* next; /**< A pointer to the next node in the linked list. */
 } chainon_t;
 
+/**
+ * @brief Definition of a pointer to a chainon_t struct, used as a type for a linked list.
+ * 
+ */
 typedef chainon_t* liste_t;
 
+/**
+ * @file TP2.c
+ * @brief This file contains the definition of the graphe_t struct and its components.
+ */
 typedef struct {
     int nbr_sommets;
     liste_t *listes;
 } graphe_t;
 
+/**
+ * @brief Definition of a structure representing an edge between two vertices.
+ * 
+ */
+typedef struct { 
+    int sommet1; /**< The first vertex of the edge. */
+    int sommet2; /**< The second vertex of the edge. */
+} arete_t;
 typedef struct { int sommet1, sommet2; } arete_t;
 
+/**
+ * @brief A struct that contains a key of type arete_t.
+ * 
+ */
+typedef struct { 
+    arete_t key; 
+} key_tt;
 typedef struct { arete_t key; } key_tt;
 
 /**
@@ -137,12 +162,15 @@ bool est_symetrique(graphe_t graphe){
     return true;
 }
 
+/**
+ * @brief A structure representing a stack data structure.
+ * 
+ */
 typedef struct pile{
-  int *elements;
-  int taille;
-  int sommet;
+    int *elements; /**< An array of integers representing the elements in the stack. */
+    int taille; /**< The maximum size of the stack. */
+    int sommet; /**< The index of the top element in the stack. */
 } pile_t;
-
 
 /**
  * Empile un élément sur la pile.
