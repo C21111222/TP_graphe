@@ -26,3 +26,7 @@ Par exemple :
 make run ARG1=10 ARG2=0.5
 ```
 
+image::
+    
+        images/exemple.png
+
