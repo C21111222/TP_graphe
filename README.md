@@ -23,7 +23,7 @@ make run ARG1=[taille de la grille] ARG2=[probabilité d'ajout d'une arête]
 Par exemple :
 
 ```bash
-make run ARG1=10 ARG2=0.5
+make run ARG1=5 ARG2=0.5
 ```
 
 ![Exemple de graphe](images/exemple.png)
