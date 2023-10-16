@@ -43,7 +43,6 @@ typedef struct {
     int sommet1; /**< The first vertex of the edge. */
     int sommet2; /**< The second vertex of the edge. */
 } arete_t;
-typedef struct { int sommet1, sommet2; } arete_t;
 
 /**
  * @brief A struct that contains a key of type arete_t.
@@ -52,7 +51,6 @@ typedef struct { int sommet1, sommet2; } arete_t;
 typedef struct { 
     arete_t key; 
 } key_tt;
-typedef struct { arete_t key; } key_tt;
 
 /**
  * Adds a new node to the beginning of a linked list.
