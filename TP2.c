@@ -402,9 +402,9 @@ int exo_coloration_step2(graphe_t graphe, int *couleurs){
  * @param probability The probability of an edge existing between two vertices.
  * @return The average number of colors used to color the graph over 100 iterations.
  */
-double moyenne_couleur(int size, double probability) {
+double moyenne_couleur(int size, double probability, int k) {
     int nbr_couleurs_total = 0;
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < k; i++) {
         graphe_t graphe = exo_coloration_step1(size, probability);
         int *couleurs = malloc(graphe.nbr_sommets * sizeof(int));
         int nbr_couleurs = exo_coloration_step2(graphe, couleurs);
@@ -412,7 +412,7 @@ double moyenne_couleur(int size, double probability) {
         detruire_graphe(&graphe);
         free(couleurs);
     }
-    return (double) nbr_couleurs_total/100;
+    return (double) nbr_couleurs_total/k;
 }
 
 /**
@@ -425,7 +425,7 @@ double prob_optimale(int size, int k) {
     double proba = 0.5;
     double proba_min = 0;
     double proba_max = 1;
-    double moyenne = moyenne_couleur(size, proba);
+    double moyenne = moyenne_couleur(size, proba, 100);
     while (moyenne > k + 0.0001 || moyenne < k - 0.0001) {
         fprintf(stdout, "%f\n", moyenne);
         fprintf(stdout, "%f\n", proba);
@@ -436,7 +436,7 @@ double prob_optimale(int size, int k) {
             proba_min = proba;
             proba = (proba + proba_max) / 2;
         }
-        moyenne = moyenne_couleur(size, proba);
+        moyenne = moyenne_couleur(size, proba, 100);
     }
     return proba;
 }
@@ -474,7 +474,7 @@ int mainsave2(int argc, char *argv[]) {
     char *probability = argv[2];
     int size_int = atoi(size);
     double probability_double = atof(probability);
-    fprintf(stdout, "%f",moyenne_couleur(size_int, probability_double));
+    fprintf(stdout, "%f",moyenne_couleur(size_int, probability_double,100));
     fprintf(stdout, "%f",prob_optimale(size_int, 2));
     return 0;
 }
