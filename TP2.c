@@ -241,36 +241,30 @@ void write_graphviz2(FILE *f, graphe_t graphe) {
  * 
  * @param f The file to write the graph to.
  * @param graphe The graph to write.
- * @param couleurs The colors to use for each node in the graph.
+ * @param couleurs The colors of the nodes.
+ * @param pin Whether or not to pin the nodes.
  */
-void write_graphviz3(FILE *f, graphe_t graphe, int *couleurs);
-void write_graphviz3(FILE *f, graphe_t graphe, int *couleurs) {
-    fprintf(f, "graph G {\n");
-    fprintf(f, "layout = fdp;\n");
-    fprintf(f, "node  [width=.4, colorscheme=paired12 ];\n");
-    fprintf(f, "edge [ width=.4, colorscheme=paired12, penwidth=4 ];\n");
+void write_graphviz3(FILE *f, graphe_t graphe, int *couleurs, bool pin) {
+    char *pinstr = pin ? "true" : "false";
+    fprintf(f, "graph G {\nlayout = fdp;\nnode [width=.4, colorscheme=paired12];\nedge [width=.4, colorscheme=paired12, penwidth=4];\n");
 
     int size = sqrt(graphe.nbr_sommets);
-    int x = 0;
-    int y = 0;
+    int pos_x, pos_y;
     for (int i = 0; i < graphe.nbr_sommets; i++) {
-        fprintf(f, "%d [pos=\"%d,%d\", pin=true, color=%d];\n", i, x, y, couleurs[i]);
-        x++;
-        if (x == size) {
-            x = 0;
-            y++;
-        }
+        pos_x = i % size;
+        pos_y = i / size;
+        fprintf(f, "%d [pos=\"%d,%d\", pin=%s, color=%d];\n", i, pos_x, pos_y, pinstr, couleurs[i]);
     }
 
+    chainon_t *chainon;
     for (int i = 0; i < graphe.nbr_sommets; i++) {
-        chainon_t *chainon = graphe.listes[i];
-        while (chainon != NULL) {
-            if (i < chainon->numero_sommet) {
-                fprintf(f, "%d -- %d [color=%d];\n", i, chainon->numero_sommet, couleurs[i]);
-            }
+        chainon = graphe.listes[i];
+        while (chainon != NULL && i < chainon->numero_sommet) {
+            fprintf(f, "%d -- %d [color=%d];\n", i, chainon->numero_sommet, couleurs[i]);
             chainon = chainon->next;
         }
     }
+
     fprintf(f, "}\n");
 }
 
@@ -458,7 +452,7 @@ int mainsave(int argc, char *argv[]) {
     int nbr_couleurs = exo_coloration_step2(graphe, couleurs);
     fprintf(stderr, "nbr_couleurs = %d\n", nbr_couleurs);
     FILE *f = fopen("exemple2.dot", "w");
-    write_graphviz3(f, graphe, couleurs);
+    write_graphviz3(f, graphe, couleurs, true);
     fclose(f);
     detruire_graphe(&graphe);
     free(couleurs);
@@ -493,7 +487,7 @@ int main(int argc, char *argv[]) {
     int nbr_couleurs = exo_coloration_step2(graphe, couleurs);
     fprintf(stderr, "nbr_couleurs = %d\n", nbr_couleurs);
     FILE *f = fopen("exemple2.dot", "w");
-    write_graphviz3(f, graphe, couleurs);
+    write_graphviz3(f, graphe, couleurs, false);
     fclose(f);
     detruire_graphe(&graphe);
     free(couleurs);
