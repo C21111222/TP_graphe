@@ -19,7 +19,7 @@ make
 Pour lancer le programme, il suffit de taper la commande suivante dans un terminal :
 
 ```bash
-./prog \[type execution] \[diagonale] \[option conditionnelle]
+./prog [type execution] [diagonale] [option conditionnelle]
 ```
 ```
 
