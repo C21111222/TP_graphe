@@ -179,11 +179,11 @@ typedef struct pile{
     int sommet; /**< The index of the top element in the stack. */
 } pile_t;
 
-/*!
- * @brief Empile un élément sur la pile.
+/**
+ * Pushes an element onto the top of the stack.
  * 
- * @param p Pointeur vers la pile.
- * @param element L'élément à empiler.
+ * @param p Pointer to the stack structure.
+ * @param element The element to be pushed onto the stack.
  */
 void empiler(struct pile *p, int element) {
     if (p->sommet == p->taille) {
@@ -193,18 +193,16 @@ void empiler(struct pile *p, int element) {
     p->sommet++;
 }
 
-/*!
- * @brief Dépile un élément de la pile.
+/**
+ * @brief Removes and returns the top element of the stack.
  * 
- * @param p Pointeur vers la pile à dépiler.
- * @return int L'élément dépilé, ou -1 si la pile est vide.
+ * @param p Pointer to the stack structure.
+ * @return int The top element of the stack, or -1 if the stack is empty.
  */
 int depiler(struct pile *p) {
   if (p->sommet == 0) {
-    // La pile est vide
     return -1;
   }
-
   p->sommet--;
   return p->elements[p->sommet];
 }
@@ -255,7 +253,7 @@ void write_graphviz2(FILE *f, graphe_t graphe) {
  */
 void write_graphviz3(FILE *f, graphe_t graphe, int *couleurs, bool pin) {
     char *pinstr = pin ? "true" : "false";
-    fprintf(f, "graph G {\nlayout = fdp;\nnode [width=.4, colorscheme=paired12];\nedge [width=.4, colorscheme=paired12, penwidth=4];\n");
+    fprintf(f, "graph G {\nlayout = fdp;\nnode [shape=point, width=.4, colorscheme=paired12];\nedge [width=.4, colorscheme=paired12, penwidth=4];\n");
 
     int size = sqrt(graphe.nbr_sommets);
     int pos_x, pos_y;
