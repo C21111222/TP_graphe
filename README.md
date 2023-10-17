@@ -55,4 +55,12 @@ Le type 3 permet de calculer la probabilité optimale pour obtenir un nombre de 
 - le nombre de parties connexes souhaité
 
 
+## Documentation
 
+Pour générer la documentation, il suffit de taper la commande suivante dans un terminal :
+
+```bash
+make doc
+```
+
+On obtient alors un dossier docs contenant la documentation au format html.

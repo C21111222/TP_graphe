@@ -11,7 +11,16 @@
 
 #define BUFSIZE 65536
 
-/**
+/*!
+ * \file TP2.c
+ * \brief Implémentation du TP2
+ * \author Corentin Calmels
+ * \version 0.1
+ * \date 2023-10-17
+ */
+
+
+/*!
  * @brief A structure representing a node in a linked list of vertices.
  * 
  */
@@ -20,13 +29,13 @@ typedef struct chainon {
     struct chainon* next; /**< A pointer to the next node in the linked list. */
 } chainon_t;
 
-/**
+/*!
  * @brief Definition of a pointer to a chainon_t struct, used as a type for a linked list.
  * 
  */
 typedef chainon_t* liste_t;
 
-/**
+/*!
  * @file TP2.c
  * @brief This file contains the definition of the graphe_t struct and its components.
  */
@@ -35,7 +44,7 @@ typedef struct {
     liste_t *listes;
 } graphe_t;
 
-/**
+/*!
  * @brief Definition of a structure representing an edge between two vertices.
  * 
  */
@@ -44,7 +53,7 @@ typedef struct {
     int sommet2; /**< The second vertex of the edge. */
 } arete_t;
 
-/**
+/*!
  * @brief A struct that contains a key of type arete_t.
  * 
  */
@@ -52,8 +61,8 @@ typedef struct {
     arete_t key; 
 } key_tt;
 
-/**
- * Adds a new node to the beginning of a linked list.
+/*!
+ * @brief Adds a new node to the beginning of a linked list.
  * 
  * @param numero_sommet The number of the vertex to be added to the linked list.
  * @param liste A pointer to the linked list.
@@ -69,8 +78,8 @@ chainon_t * ajouter_chainon(int numero_sommet, liste_t *liste) {
     return nouveau_chainon;
 }
 
-/**
- * Frees the memory allocated for a linked list and sets the pointer to NULL.
+/*!
+ * @brief Frees the memory allocated for a linked list and sets the pointer to NULL.
  * 
  * @param liste A pointer to the head of the linked list.
  */
@@ -84,7 +93,7 @@ void detruire_liste(liste_t *liste) {
     *liste = NULL;
 }
 
-/**
+/*!
  * @brief Frees the memory allocated for a graph and its adjacency lists.
  * 
  * @param graphe Pointer to the graph to be destroyed.
@@ -100,8 +109,8 @@ void detruire_graphe(graphe_t *graphe){
     graphe->nbr_sommets = 0;
 }
 
-/**
- * Calculates the length of a linked list.
+/*!
+ * @brief Calculates the length of a linked list.
  * @param liste The linked list to calculate the length of.
  * @return The length of the linked list.
  */
@@ -112,8 +121,8 @@ int longueur_liste(liste_t liste){
     return 0;
 }
 
-/**
- * Checks if a graph contains a loop.
+/*!
+ * @brief Checks if a graph contains a loop.
  * 
  * @param graphe The graph to check.
  * @return True if the graph contains a loop, false otherwise.
@@ -129,8 +138,8 @@ bool contient_boucle(graphe_t graphe){
     return false;
 }
 
-/**
- * Check if a graph is symmetric.
+/*!
+ * @brief Check if a graph is symmetric.
  * A graph is symmetric if for every edge (u, v), there exists an edge (v, u).
  * 
  * @param graphe The graph to check.
@@ -160,7 +169,7 @@ bool est_symetrique(graphe_t graphe){
     return true;
 }
 
-/**
+/*!
  * @brief A structure representing a stack data structure.
  * 
  */
@@ -170,8 +179,8 @@ typedef struct pile{
     int sommet; /**< The index of the top element in the stack. */
 } pile_t;
 
-/**
- * Empile un élément sur la pile.
+/*!
+ * @brief Empile un élément sur la pile.
  * 
  * @param p Pointeur vers la pile.
  * @param element L'élément à empiler.
@@ -184,7 +193,7 @@ void empiler(struct pile *p, int element) {
     p->sommet++;
 }
 
-/**
+/*!
  * @brief Dépile un élément de la pile.
  * 
  * @param p Pointeur vers la pile à dépiler.
@@ -200,8 +209,8 @@ int depiler(struct pile *p) {
   return p->elements[p->sommet];
 }
 
-/**
- * Writes the graph in Graphviz format to a file.
+/*!
+ * @brief Writes the graph in Graphviz format to a file.
  * 
  * @param f The file to write the graph to.
  * @param graphe The graph to write.
@@ -236,8 +245,8 @@ void write_graphviz2(FILE *f, graphe_t graphe) {
     fprintf(f, "}\n");
 }
 
-/**
- * Writes a graph in Graphviz format to a file.
+/*!
+ * @brief Writes a graph in Graphviz format to a file.
  * 
  * @param f The file to write the graph to.
  * @param graphe The graph to write.
@@ -268,8 +277,8 @@ void write_graphviz3(FILE *f, graphe_t graphe, int *couleurs, bool pin) {
     fprintf(f, "}\n");
 }
 
-/**
- * Generates a graph with a given size and probability of edges between vertices.
+/*!
+ * @brief Generates a graph with a given size and probability of edges between vertices.
  * 
  * @param size The size of the graph (number of vertices).
  * @param probability The probability of an edge between two vertices being created.
@@ -331,8 +340,8 @@ graphe_t exo_coloration_step1(int size, double probability, bool diagonal){
     return graphe;
 }
 
-/**
- * Affiche les éléments d'une pile.
+/*!
+ * @brief Affiche les éléments d'une pile.
  * @param pile La pile à afficher.
  */
 void afficher_pile(pile_t pile) {
@@ -343,8 +352,8 @@ void afficher_pile(pile_t pile) {
 }
 
 
-/**
- * This function performs the second step of graph coloring algorithm.
+/*!
+ * @brief This function performs the second step of graph coloring algorithm.
  * It takes a graph and an array of colors as input and returns the number of colors used.
  * The function uses a stack to traverse the graph and assigns colors to each vertex.
  * The algorithm starts by marking all vertices as unvisited and initializes the color to 0.
@@ -389,8 +398,8 @@ int exo_coloration_step2(graphe_t graphe, int *couleurs){
     return couleur;
 }
 
-/**
- * Calculates the average number of colors used to color a graph of a given size and probability.
+/*!
+ * @brief Calculates the average number of colors used to color a graph of a given size and probability.
  * 
  * @param size The number of vertices in the graph.
  * @param probability The probability of an edge existing between two vertices.
@@ -409,8 +418,8 @@ double moyenne_couleur(int size, double probability, int k, bool diagonal) {
     return (double) nbr_couleurs_total/k;
 }
 
-/**
- * Calculates the optimal probability for a given graph size and number of colors.
+/*!
+ * @brief Calculates the optimal probability for a given graph size and number of colors.
  * @param size The size of the graph.
  * @param k The number of colors.
  * @return The optimal probability.
@@ -434,6 +443,17 @@ double prob_optimale(int size, int k, bool diagonal) {
 }
 
 
+/*!
+ * @brief The main function of the program.
+ * It takes command line arguments and executes different types of operations based on the arguments.
+ * 
+ * @param argc The number of command line arguments.
+ * @param argv The array of command line arguments.
+ * @return 0 if the program executes successfully, 1 otherwise.
+ */
+int main(int argc, char *argv[]) {
+    // ...
+}
 int main(int argc, char *argv[]) {
     if (argc < 2) {
         printf("Usage: %s [type d'éxecution] [taille du carré] [diagonale] [option conditionnelle] ...\n", argv[0]);

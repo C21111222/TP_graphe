@@ -1,0 +1,54 @@
+# Fichier de configuration Doxygen pour TP2.c
+
+# Indiquez le nom de votre projet
+PROJECT_NAME           = "TP2 Théorie des graphes"
+
+# Indiquez la version de votre projet
+PROJECT_NUMBER         = "1.0"
+
+# L'extension des fichiers source que vous souhaitez inclure dans la documentation
+FILE_PATTERNS          = *.c
+
+# Répertoire source de votre projet
+INPUT                  = .
+
+# Répertoire de sortie pour la documentation générée
+OUTPUT_DIRECTORY        = ./docs
+
+# Indiquez le nom de l'auteur
+AUTHOR                 = "Calmels Corentin"
+
+# Indiquez l'adresse email de l'auteur
+AUTHOR_EMAIL           = "corentin.calmels@outlook.com"
+
+# Spécifiez le format de sortie (HTML est utilisé par défaut)
+GENERATE_HTML          = YES
+
+# Générer un fichier LaTeX (utile si vous souhaitez également générer un PDF)
+GENERATE_LATEX         = NO
+
+# Activer la génération de documentation pour les fichiers C
+GENERATE_MAN           = YES
+
+# Activer la génération de documentation pour les fichiers C++
+GENERATE_RTF           = NO
+
+# Exclure les dossiers ou fichiers que vous ne voulez pas inclure dans la documentation
+EXCLUDE                = 
+
+# Exclure les fichiers d'en-tête (.h) s'ils ne sont pas pertinents pour ce fichier unique
+EXTENSION_MAPPING      = h=C
+
+# Inclure le fichier source unique dans la documentation
+INPUT                  = TP2.c
+
+# Fournir un lien vers le fichier source
+SOURCE_BROWSER          = YES
+
+# Exclure les fichiers système (le cas échéant)
+EXCLUDE_SYMLINKS        = NO
+
+# Exclure certains fichiers générés automatiquement (par exemple, les fichiers .o)
+EXCLUDE_PATTERNS       = */.git/*
+
+GENERATE_TREEVIEW      = YES

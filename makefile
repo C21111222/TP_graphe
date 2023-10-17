@@ -20,3 +20,5 @@ clean:
 display: prog
 	dot -Txlib exemple2.dot 2>/dev/null
 
+doc:
+	doxygen doxyfile
