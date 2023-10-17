@@ -468,21 +468,23 @@ int main(int argc, char *argv[]) {
 
     if (strcmp("1", argv[1]) == 0) {
         if (argc < 4) {
-            printf("Usage: %s 1 [taille du carré] [diagonale] [probabilité] ...\n", argv[0]);
+            printf("Usage: %s 1 [taille du carré] [diagonale] [probabilité] [pin]...\n", argv[0]);
             return 1;
         }
         char *size = argv[2];
         char *probability = argv[4];
         int size_int = atoi(size);
         double probability_double = atof(probability);
-        bool diagonal;
+        bool diagonal = false;
+        bool pin = false;
         if (strcmp("true", argv[3]) == 0) diagonal = true;
+        if (strcmp("true",argv[5])==0) pin = true;
         else diagonal = false;
         graphe_t graphe = exo_coloration_step1(size_int, probability_double, diagonal);
         int *couleurs = malloc(graphe.nbr_sommets * sizeof(int));
         int nbr_couleurs = exo_coloration_step2(graphe, couleurs);
         FILE *f = fopen("exemple2.dot", "w");
-        write_graphviz3(f, graphe, couleurs, true);
+        write_graphviz3(f, graphe, couleurs, pin);
         fclose(f);
         detruire_graphe(&graphe);
         free(couleurs);

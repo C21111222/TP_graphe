@@ -26,7 +26,7 @@ Pour lancer le programme, il suffit de taper la commande suivante dans un termin
 Par exemple :
 
 ```bash
-./prog 1 5 true 0.55
+./prog 1 5 true 0.55 true
 ```
 
 ## Affichage
@@ -39,10 +39,11 @@ make display
 
 ## Type d'exécution
 
-Le type 1 permet de génerer un graphe aléatoire et de le colorier, selon trois paramètres :
+Le type 1 permet de génerer un graphe aléatoire et de le colorier, selon quatre paramètres :
 - la taille de la grille 
 - la diagonale, qui correspond à true si on veut que les sommets de la diagonale puissent être reliés entre eux, false sinon
 - l'option conditionnelle qui correspond à la probabilité qu'une arête soit créée entre deux sommets adjacents
+- pin, qui correspond à true si on veut que les points soient placés sur la grille, false sinon
 
 Le type 2 permet de calculer la moyenne du nombre de parties connexes, selon trois paramètres :
 - la taille de la grille
