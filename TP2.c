@@ -275,7 +275,7 @@ void write_graphviz3(FILE *f, graphe_t graphe, int *couleurs, bool pin) {
  * @param probability The probability of an edge between two vertices being created.
  * @return A graph with the given size and probability of edges.
  */
-graphe_t exo_coloration_step1(int size, double probability){
+graphe_t exo_coloration_step1(int size, double probability, bool diagonal){
     int matrice[size][size];
     srand(time(NULL));
     int comp = 0;
@@ -295,7 +295,7 @@ graphe_t exo_coloration_step1(int size, double probability){
 
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; ++j) { 
-            if (i+1 < size) {
+            if (i+1 < size) {   
                 if (rand() < probability * ((double)RAND_MAX + 1.0)) {
                     matrice_adjacence[matrice[i][j]][matrice[i+1][j]] = 1;
                     matrice_adjacence[matrice[i+1][j]][matrice[i][j]] = 1;
@@ -307,12 +307,12 @@ graphe_t exo_coloration_step1(int size, double probability){
                     matrice_adjacence[matrice[i][j+1]][matrice[i][j]] = 1;
                 }
             }
-            /*if (j+1 < size && i+1 < size) {
+            if (diagonal && j+1 < size && i+1 < size) {
                 if (rand() < probability * ((double)RAND_MAX + 1.0)) {
                     matrice_adjacence[matrice[i][j]][matrice[i+1][j+1]] = 1;
                     matrice_adjacence[matrice[i+1][j+1]][matrice[i][j]] = 1;
                 }
-            }*/
+            }
         }
     }
     graphe_t graphe; graphe.nbr_sommets = size*size;
@@ -396,10 +396,10 @@ int exo_coloration_step2(graphe_t graphe, int *couleurs){
  * @param probability The probability of an edge existing between two vertices.
  * @return The average number of colors used to color the graph over 100 iterations.
  */
-double moyenne_couleur(int size, double probability, int k) {
+double moyenne_couleur(int size, double probability, int k, bool diagonal) {
     int nbr_couleurs_total = 0;
     for (int i = 0; i < k; i++) {
-        graphe_t graphe = exo_coloration_step1(size, probability);
+        graphe_t graphe = exo_coloration_step1(size, probability, diagonal);
         int *couleurs = malloc(graphe.nbr_sommets * sizeof(int));
         int nbr_couleurs = exo_coloration_step2(graphe, couleurs);
         nbr_couleurs_total += nbr_couleurs;
@@ -415,14 +415,12 @@ double moyenne_couleur(int size, double probability, int k) {
  * @param k The number of colors.
  * @return The optimal probability.
  */
-double prob_optimale(int size, int k) {
+double prob_optimale(int size, int k, bool diagonal) {
     double proba = 0.5;
     double proba_min = 0;
     double proba_max = 1;
-    double moyenne = moyenne_couleur(size, proba, 100);
+    double moyenne = moyenne_couleur(size, proba, 100, diagonal);
     while (moyenne > k + 0.0001 || moyenne < k - 0.0001) {
-        fprintf(stdout, "%f\n", moyenne);
-        fprintf(stdout, "%f\n", proba);
         if (moyenne < k) {
             proba_max = proba;
             proba = (proba + proba_min) / 2;
@@ -430,68 +428,83 @@ double prob_optimale(int size, int k) {
             proba_min = proba;
             proba = (proba + proba_max) / 2;
         }
-        moyenne = moyenne_couleur(size, proba, 100);
+        moyenne = moyenne_couleur(size, proba, 100, diagonal);
     }
     return proba;
 }
 
 
-int mainsave(int argc, char *argv[]) {
-
-    if (argc < 2) {
-        printf("Usage: %s [taille du carré] [probabilité] ...\n", argv[0]);
-        return 1;
-    }
-    char *size = argv[1];
-    char *probability = argv[2];
-    int size_int = atoi(size);
-    double probability_double = atof(probability);
-
-    graphe_t graphe = exo_coloration_step1(size_int, probability_double);
-    int *couleurs = malloc(graphe.nbr_sommets * sizeof(int));
-    int nbr_couleurs = exo_coloration_step2(graphe, couleurs);
-    fprintf(stderr, "nbr_couleurs = %d\n", nbr_couleurs);
-    FILE *f = fopen("exemple2.dot", "w");
-    write_graphviz3(f, graphe, couleurs, true);
-    fclose(f);
-    detruire_graphe(&graphe);
-    free(couleurs);
-    
-}
-
-int mainsave2(int argc, char *argv[]) {
-    if (argc < 2) {
-        printf("Usage: %s [taille du carré] [probabilité] ...\n", argv[0]);
-        return 1;
-    }
-    char *size = argv[1];
-    char *probability = argv[2];
-    int size_int = atoi(size);
-    double probability_double = atof(probability);
-    fprintf(stdout, "%f",moyenne_couleur(size_int, probability_double,100));
-    fprintf(stdout, "%f",prob_optimale(size_int, 2));
-    return 0;
-}
-
 int main(int argc, char *argv[]) {
     if (argc < 2) {
-        printf("Usage: %s [taille du carré] [probabilité] ...\n", argv[0]);
+        printf("Usage: %s [type d'éxecution] [taille du carré] [diagonale] [option conditionnelle] ...\n", argv[0]);
         return 1;
     }
-    char *size = argv[1];
-    char *probability = argv[2];
-    int size_int = atoi(size);
-    double probability_double = atof(probability);
-    graphe_t graphe = exo_coloration_step1(size_int, probability_double);
-    int *couleurs = malloc(graphe.nbr_sommets * sizeof(int));
-    int nbr_couleurs = exo_coloration_step2(graphe, couleurs);
-    fprintf(stderr, "nbr_couleurs = %d\n", nbr_couleurs);
-    FILE *f = fopen("exemple2.dot", "w");
-    write_graphviz3(f, graphe, couleurs, false);
-    fclose(f);
-    detruire_graphe(&graphe);
-    free(couleurs);
-    return 0;
+
+    if (strcmp("--help", argv[1]) == 0) {
+        printf("Usage: %s [type d'éxecution] [taille du carré] [diagonale] [option conditionnelle] ...\n", argv[0]);
+        printf("Types d'éxecution :\n");
+        printf("1 : Génération d'un graphe aléatoire et coloration\n");
+        printf("2 : Moyenne du nombre de parties connexes pour une taille de grille et une probabilité données\n");
+        printf("3 : Probabilité optimale pour une taille de grille et un nombre de couleurs donnés\n");
+        return 0;
+    }
+
+    if (strcmp("1", argv[1]) == 0) {
+        if (argc < 4) {
+            printf("Usage: %s 1 [taille du carré] [diagonale] [probabilité] ...\n", argv[0]);
+            return 1;
+        }
+        char *size = argv[2];
+        char *probability = argv[4];
+        int size_int = atoi(size);
+        double probability_double = atof(probability);
+        bool diagonal;
+        if (strcmp("true", argv[3]) == 0) diagonal = true;
+        else diagonal = false;
+        graphe_t graphe = exo_coloration_step1(size_int, probability_double, diagonal);
+        int *couleurs = malloc(graphe.nbr_sommets * sizeof(int));
+        int nbr_couleurs = exo_coloration_step2(graphe, couleurs);
+        FILE *f = fopen("exemple2.dot", "w");
+        write_graphviz3(f, graphe, couleurs, true);
+        fclose(f);
+        detruire_graphe(&graphe);
+        free(couleurs);
+        fprintf(stdout,"\n Nombre de couleur : %d\n",nbr_couleurs);
+        fprintf(stdout,"\n make display pour afficher le graphe\n");
+        return 0;
+    }
+
+    if (strcmp("2", argv[1]) == 0) {
+        if (argc < 4) {
+            printf("Usage: %s 2 [taille du carré] [diagonale] [probabilité] ...\n", argv[0]);
+            return 1;
+        }
+        char *size = argv[2];
+        char *probability = argv[4];
+        int size_int = atoi(size);
+        double probability_double = atof(probability);
+        bool diagonal;
+        if (strcmp("true", argv[3]) == 0) diagonal = true;
+        else diagonal = false;
+        fprintf(stdout, "\n La moyenne du nombre de parties connexes pour une grille de %d*%d et un probabilité de %f : %f\n",size_int, size_int, probability_double, moyenne_couleur(size_int, probability_double,1000, diagonal));
+        return 0;
+    }
+
+    if (strcmp("3", argv[1]) == 0) {
+        if (argc < 4) {
+            printf("Usage: %s 3 [taille du carré] [diagonale] [nombre de couleur] ...\n", argv[0]);
+            return 1;
+        }
+        char *size = argv[2];
+        char *k = argv[4];
+        int size_int = atoi(size);
+        int k_int = atoi(k);
+        bool diagonal;
+        if (strcmp("true", argv[3]) == 0) diagonal = true;
+        else diagonal = false;
+        fprintf(stdout, "\nLa probailité optimale pour avoir %d parties connexes à partir d'une grille %d*%d est : %f\n",k_int,size_int,size_int,prob_optimale(size_int, k_int, diagonal));
+        return 0;
+    }
     
 }
  
