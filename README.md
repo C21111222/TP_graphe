@@ -29,6 +29,14 @@ Par exemple :
 ./prog 1 5 true 0.55
 ```
 
+## Affichage
+
+Lors de l'exécution du type 1, le programme génère un graphe aléatoire et le colorie. Pour l'afficher on exécute la commande suivante :
+
+```bash
+make display
+```
+
 ## Type d'exécution
 
 Le type 1 permet de génerer un graphe aléatoire et de le colorier, selon trois paramètres :
