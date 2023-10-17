@@ -452,9 +452,6 @@ double prob_optimale(int size, int k, bool diagonal) {
  * @return 0 if the program executes successfully, 1 otherwise.
  */
 int main(int argc, char *argv[]) {
-    // ...
-}
-int main(int argc, char *argv[]) {
     if (argc < 2) {
         printf("Usage: %s [type d'éxecution] [taille du carré] [diagonale] [option conditionnelle] ...\n", argv[0]);
         return 1;
