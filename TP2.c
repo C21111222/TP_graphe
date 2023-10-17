@@ -440,6 +440,32 @@ double prob_optimale(int size, int k, bool diagonal) {
     return proba;
 }
 
+/**
+ * @brief Display the help message for the program.
+ * 
+ * Usage: ./prog [type d'éxecution] [taille du carré] [diagonale] [option conditionnelle] ...
+ * 
+ * Types d'éxecution :
+ * 
+ * 1 : Génération d'un graphe aléatoire et coloration:
+ *     ./prog 1 [taille grille] [diagonale(true/false)] [probabilité] [ping(true/false)]
+ * 
+ * 2 : Moyenne du nombre de parties connexes pour une taille de grille et une probabilité données
+ *     ./prog 2 [taille grille] [diagonale(true/false)] [probabilité]
+ * 
+ * 3 : Probabilité optimale pour une taille de grille et un nombre de couleurs donnés
+ *     ./prog 3 [taille grille] [diagonale(true/false)] [nombre de couleurs]
+ */
+void display_help(){
+    printf("Usage: ./prog [type d'éxecution] [taille du carré] [diagonale] [option conditionnelle] ...\n");
+    printf("Types d'éxecution :\n");
+    printf("\n1 : Génération d'un graphe aléatoire et coloration:\n");
+    printf("    ./prog 1 [taille grille] [diagonale(true/false)] [probabilité] [ping(true/false)]\n");
+    printf("\n2 : Moyenne du nombre de parties connexes pour une taille de grille et une probabilité données\n");
+    printf("    ./prog 2 [taille grille] [diagonale(true/false)] [probabilité]\n");
+    printf("\n3 : Probabilité optimale pour une taille de grille et un nombre de couleurs donnés\n");
+    printf("    ./prog 3 [taille grille] [diagonale(true/false)] [nombre de couleurs]\n");
+}
 
 /*!
  * @brief The main function of the program.
@@ -450,23 +476,15 @@ double prob_optimale(int size, int k, bool diagonal) {
  * @return 0 if the program executes successfully, 1 otherwise.
  */
 int main(int argc, char *argv[]) {
-    if (argc < 2) {
-        printf("Usage: %s [type d'éxecution] [taille du carré] [diagonale] [option conditionnelle] ...\n", argv[0]);
-        return 1;
-    }
 
-    if (strcmp("--help", argv[1]) == 0) {
-        printf("Usage: %s [type d'éxecution] [taille du carré] [diagonale] [option conditionnelle] ...\n", argv[0]);
-        printf("Types d'éxecution :\n");
-        printf("1 : Génération d'un graphe aléatoire et coloration\n");
-        printf("2 : Moyenne du nombre de parties connexes pour une taille de grille et une probabilité données\n");
-        printf("3 : Probabilité optimale pour une taille de grille et un nombre de couleurs donnés\n");
+    if (argc < 2 || strcmp("--help", argv[1]) == 0) {
+        display_help();
         return 0;
     }
 
     if (strcmp("1", argv[1]) == 0) {
         if (argc < 4) {
-            printf("Usage: %s 1 [taille du carré] [diagonale] [probabilité] [pin]...\n", argv[0]);
+            display_help();
             return 1;
         }
         char *size = argv[2];
@@ -493,7 +511,7 @@ int main(int argc, char *argv[]) {
 
     if (strcmp("2", argv[1]) == 0) {
         if (argc < 4) {
-            printf("Usage: %s 2 [taille du carré] [diagonale] [probabilité] ...\n", argv[0]);
+            display_help();
             return 1;
         }
         char *size = argv[2];
@@ -509,7 +527,7 @@ int main(int argc, char *argv[]) {
 
     if (strcmp("3", argv[1]) == 0) {
         if (argc < 4) {
-            printf("Usage: %s 3 [taille du carré] [diagonale] [nombre de couleur] ...\n", argv[0]);
+            display_help();
             return 1;
         }
         char *size = argv[2];
