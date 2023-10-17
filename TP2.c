@@ -487,10 +487,8 @@ int main(int argc, char *argv[]) {
             display_help();
             return 1;
         }
-        char *size = argv[2];
-        char *probability = argv[4];
-        int size_int = atoi(size);
-        double probability_double = atof(probability);
+        int size_int = atoi(argv[2]);
+        double probability_double = atof(argv[4]);
         bool diagonal = false;
         bool pin = false;
         if (strcmp("true", argv[3]) == 0) diagonal = true;
@@ -514,10 +512,8 @@ int main(int argc, char *argv[]) {
             display_help();
             return 1;
         }
-        char *size = argv[2];
-        char *probability = argv[4];
-        int size_int = atoi(size);
-        double probability_double = atof(probability);
+        int size_int = atoi(argv[2]);
+        double probability_double = atof(argv[4]);
         bool diagonal;
         if (strcmp("true", argv[3]) == 0) diagonal = true;
         else diagonal = false;
@@ -530,10 +526,8 @@ int main(int argc, char *argv[]) {
             display_help();
             return 1;
         }
-        char *size = argv[2];
-        char *k = argv[4];
-        int size_int = atoi(size);
-        int k_int = atoi(k);
+        int size_int = atoi(argv[2]);
+        int k_int = atoi(argv[4]);
         bool diagonal;
         if (strcmp("true", argv[3]) == 0) diagonal = true;
         else diagonal = false;
