@@ -12,14 +12,12 @@
 #include "colors.c"
 #define BUFSIZE 65536
 
+
 /*!
- * \file TP2.c
+ * \file function.c
  * \brief Implémentation du TP2
  * \author Corentin Calmels
- * \version 0.1
- * \date 2023-10-17
  */
-
 
 /*!
  * @brief A structure representing a node in a linked list of vertices.
@@ -208,41 +206,6 @@ int depiler(struct pile *p) {
   return p->elements[p->sommet];
 }
 
-/*!
- * @brief Writes the graph in Graphviz format to a file.
- * 
- * @param f The file to write the graph to.
- * @param graphe The graph to write.
- */
-void write_graphviz2(FILE *f, graphe_t graphe) {
-    fprintf(f, "graph G {\n");
-    fprintf(f, "layout = fdp;\n");
-    fprintf(f, "node  [shape=point, width=.4, colorscheme=paired12 ];\n");
-    fprintf(f, "edge [ width=.4, colorscheme=paired12, penwidth=4 ];\n");
-
-    int size = sqrt(graphe.nbr_sommets);
-    int x = 0;
-    int y = 0;
-    for (int i = 0; i < graphe.nbr_sommets; i++) {
-        fprintf(f, "%d [pos=\"%d,%d\", pin=true];\n", i, x, y);
-        x++;
-        if (x == size) {
-            x = 0;
-            y++;
-        }
-    }
-
-    for (int i = 0; i < graphe.nbr_sommets; i++) {
-        chainon_t *chainon = graphe.listes[i];
-        while (chainon != NULL) {
-            if (i < chainon->numero_sommet) {
-                fprintf(f, "%d -- %d;\n", i, chainon->numero_sommet);
-            }
-            chainon = chainon->next;
-        }
-    }
-    fprintf(f, "}\n");
-}
 
 /*!
  * @brief Writes a graph in Graphviz format to a file.
@@ -337,17 +300,6 @@ graphe_t exo_coloration_step1(int size, double probability, bool diagonal){
         }
     }
     return graphe;
-}
-
-/*!
- * @brief Affiche les éléments d'une pile.
- * @param pile La pile à afficher.
- */
-void afficher_pile(pile_t pile) {
-    for (int i = 0; i < pile.sommet; i++) {
-        printf("%d ", pile.elements[i]);
-    }
-    printf("\n");
 }
 
 
@@ -466,78 +418,5 @@ void display_help(){
     printf("    ./prog 2 [taille grille] [diagonale(true/false)] [probabilité]\n");
     printf("\n3 : Probabilité optimale pour une taille de grille et un nombre de couleurs donnés\n");
     printf("    ./prog 3 [taille grille] [diagonale(true/false)] [nombre de couleurs]\n");
-}
-
-/*!
- * @brief The main function of the program.
- * It takes command line arguments and executes different types of operations based on the arguments.
- * 
- * @param argc The number of command line arguments.
- * @param argv The array of command line arguments.
- * @return 0 if the program executes successfully, 1 otherwise.
- */
-int main(int argc, char *argv[]) {
-
-    if (argc < 2 || strcmp("--help", argv[1]) == 0) {
-        display_help();
-        return 0;
-    }
-
-    switch (atoi(argv[1])) {
-        case 1: {
-            if (argc < 4) {
-                display_help();
-                return 1;
-            }
-            int size_int = atoi(argv[2]);
-            double probability_double = atof(argv[4]);
-            bool diagonal = false;
-            bool pin = false;
-            if (strcmp("true", argv[3]) == 0) diagonal = true;
-            if (strcmp("true",argv[5])==0) pin = true;
-            else diagonal = false;
-            graphe_t graphe = exo_coloration_step1(size_int, probability_double, diagonal);
-            int *couleurs = calloc(graphe.nbr_sommets, sizeof(int));
-            int nbr_couleurs = exo_coloration_step2(graphe, couleurs);
-            FILE *f = fopen("exemple2.dot", "w");   
-            write_graphviz3(f, graphe, couleurs, pin);
-            fclose(f);
-            detruire_graphe(&graphe);
-            free(couleurs);
-            fprintf(stdout,"\n Nombre de couleur : %d\n",nbr_couleurs);
-            fprintf(stdout,"\n make display pour afficher le graphe\n");
-            return 0;
-        }
-        case 2: {
-            if (argc < 4) {
-                display_help();
-                return 1;
-            }
-            int size_int = atoi(argv[2]);
-            double probability_double = atof(argv[4]);
-            bool diagonal;
-            if (strcmp("true", argv[3]) == 0) diagonal = true;
-            else diagonal = false;
-            fprintf(stdout, "\n La moyenne du nombre de parties connexes pour une grille de %d*%d et un probabilité de %f : %f\n",size_int, size_int, probability_double, moyenne_couleur(size_int, probability_double,1000, diagonal));
-            return 0;
-        }
-        case 3: {
-            if (argc < 4) {
-                display_help();
-                return 1;
-            }
-            int size_int = atoi(argv[2]);
-            int k_int = atoi(argv[4]);
-            bool diagonal;
-            if (strcmp("true", argv[3]) == 0) diagonal = true;
-            else diagonal = false;
-            fprintf(stdout, "\nLa probailité optimale pour avoir %d parties connexes à partir d'une grille %d*%d est : %f\n",k_int,size_int,size_int,prob_optimale(size_int, k_int, diagonal));
-            return 0;
-        }
-        default: {
-            display_help();
-            return 1;
-        }
-    }
 }
  
