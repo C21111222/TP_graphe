@@ -254,7 +254,7 @@ void write_graphviz2(FILE *f, graphe_t graphe) {
  */
 void write_graphviz3(FILE *f, graphe_t graphe, int *couleurs, bool pin) {
     char *pinstr = pin ? "true" : "false";
-    fprintf(f, "graph G {\nlayout = fdp;\nnode [shape=point, width=.4, colorscheme=X11];\nedge [width=.4, penwidth=4, colorscheme=X11];\n");
+    fprintf(f, "graph G {\nlayout = neato   ;\nnode [shape=point, width=.4, colorscheme=X11];\nedge [width=.4, penwidth=4, colorscheme=X11];\n");
 
     int size = sqrt(graphe.nbr_sommets);
     int pos_x, pos_y;

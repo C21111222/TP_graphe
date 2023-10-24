@@ -1,3 +1,10 @@
+/**
+ * @file colors.c
+ * @brief This file contains an array of color names in alphabetical order.
+ * 
+ * This file contains an array of color names in alphabetical order, which can be used for various purposes such as 
+ * setting colors in graphical applications or generating random colors.
+ */
 char* colornames[] = {
      "aliceblue",
      "antiquewhite",
