@@ -1,7 +1,7 @@
 
 prog
 
-TP2.o
+*.o
 
 exemple2.dot
 
