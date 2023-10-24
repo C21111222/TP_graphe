@@ -6,9 +6,10 @@
 #include <time.h>
 #include <math.h>
 
+
 #define STB_DS_IMPLEMENTATION
 #include "stb_ds.h"
-
+#include "colors.c"
 #define BUFSIZE 65536
 
 /*!
@@ -253,21 +254,21 @@ void write_graphviz2(FILE *f, graphe_t graphe) {
  */
 void write_graphviz3(FILE *f, graphe_t graphe, int *couleurs, bool pin) {
     char *pinstr = pin ? "true" : "false";
-    fprintf(f, "graph G {\nlayout = fdp;\nnode [shape=point, width=.4, colorscheme=paired12];\nedge [width=.4, colorscheme=paired12, penwidth=4];\n");
+    fprintf(f, "graph G {\nlayout = fdp;\nnode [shape=point, width=.4, colorscheme=X11];\nedge [width=.4, penwidth=4, colorscheme=X11];\n");
 
     int size = sqrt(graphe.nbr_sommets);
     int pos_x, pos_y;
     for (int i = 0; i < graphe.nbr_sommets; i++) {
         pos_x = i % size;
         pos_y = i / size;
-        fprintf(f, "%d [pos=\"%d,%d\", pin=%s, color=%d];\n", i, pos_x, pos_y, pinstr, couleurs[i]);
+        fprintf(f, "%d [pos=\"%d,%d\", pin=%s, color=%s];\n", i, pos_x, pos_y, pinstr, colornames[couleurs[i]+43]);
     }
 
     chainon_t *chainon;
     for (int i = 0; i < graphe.nbr_sommets; i++) {
         chainon = graphe.listes[i];
         while (chainon != NULL && i < chainon->numero_sommet) {
-            fprintf(f, "%d -- %d [color=%d];\n", i, chainon->numero_sommet, couleurs[i]);
+            fprintf(f, "%d -- %d [color=%s];\n", i, chainon->numero_sommet, colornames[couleurs[i]+43]);
             chainon = chainon->next;
         }
     }
