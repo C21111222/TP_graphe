@@ -21,7 +21,6 @@ Pour lancer le programme, il suffit de taper la commande suivante dans un termin
 ```bash
 ./prog [type execution] [diagonale] [option conditionnelle]
 ```
-```
 
 Par exemple :
 
